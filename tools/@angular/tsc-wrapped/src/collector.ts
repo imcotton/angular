@@ -75,16 +75,16 @@ export class MetadataCollector {
 
 
     interface NodeFlagsUtils {
-      getNodeFlags(flag: ts.NodeFlags): (target: ts.Node) => boolean;
+      getNodeFlags(flag: ts.ModifierFlags): (target: ts.Node) => boolean;
     }
 
     const nodeFlagsUtils = {
-      get isStatic(this: NodeFlagsUtils) { return this.getNodeFlags(ts.NodeFlags.Static); },
+      get isStatic(this: NodeFlagsUtils) { return this.getNodeFlags(ts.ModifierFlags.Static); },
 
-      get isExport(this: NodeFlagsUtils) { return this.getNodeFlags(ts.NodeFlags.Export); },
+      get isExport(this: NodeFlagsUtils) { return this.getNodeFlags(ts.ModifierFlags.Export); },
 
-      getNodeFlags(flag: ts.NodeFlags) {
-        return function(target: ts.Node) { return !!(target.flags & flag); };
+      getNodeFlags(flag: ts.ModifierFlags) {
+        return function(target: ts.Node) { return !!(ts.getCombinedModifierFlags(target) & flag); };
       },
     };
 
